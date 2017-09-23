@@ -92,38 +92,48 @@ class TaskstatusController extends Controller {
      */
     public function actionCommit() {
         $rtn = array(
-            'errno' => -1,
-            'message' => '错误的参数',
+            'ret' => -1,
+            'message' => 'error entry',
             'retcode' => '',
         );
-        $model = new Taskstatus();
         $data = Yii::$app->request->post();
+        $datatype = 'json';
         if (isset($data) & $data) {
-            $retcode = (isset($data['retcode']) && $data['retcode'] )? $data['retcode'] : '';
-            if (isset($data['cmd']) && $data['cmd'] == 'echo') {
-                $rtn['errno'] = 0;
-                $rtn['message'] = '正常返回';
-                $rtn['data'] = $data;
-                $rtn['retcode'] = $retcode;
+            $cmd = isset($data['cmd']) ? $data['cmd'] : 'version';
+            $datatype = isset($data['type']) ? $data['type'] : 'json';
+            $method = 'Cmd' . ucfirst($cmd);
+            if (method_exists($this, $method)) {
+                $rtn = call_user_func_array(array($this, $method), array($data));
             } else {
-                try {
-                    if ($model->load($data) && $model->save()) {
-                        $rtn['errno'] = 0;
-                        $rtn['message'] = '正常返回';
-                        $rtn['retcode'] = $retcode;
-                    } else {
-                        $rtn['errno'] = -3;
-                        $rtn['message'] = $model->getErrors();
-                        $rtn['retcode'] = $retcode;
-                    }
-                } catch (Exception $e) {
-                    $rtn['errno'] = -2;
-                    $rtn['message'] = $e->message;
-                    $rtn['retcode'] = $retcode;
-                }
+                $rtn = array(
+                    'ret' => -2,
+                    'message' => 'command not exist',
+                );
             }
+
+//                try {
+//                    if ($model->load($data) && $model->save()) {
+//                        $rtn['errno'] = 0;
+//                        $rtn['message'] = 'OK';
+//                        $rtn['retcode'] = $retcode;
+//                    } else {
+//                        $rtn['errno'] = -3;
+//                        $rtn['message'] = $model->getErrors();
+//                        $rtn['retcode'] = $retcode;
+//                    }
+//                } catch (Exception $e) {
+//                    $rtn['errno'] = -2;
+//                    $rtn['message'] = $e->message;
+//                    $rtn['retcode'] = $retcode;
+//                }
+            $retcode = (isset($data['retcode']) && $data['retcode'] ) ? $data['retcode'] : '';
+            $rtn['retcode'] = $retcode;
         }
-        echo json_encode($rtn);
+        if ($datatype == 'php') {
+            print_r($rtn);
+        } else {
+            echo json_encode($rtn);
+        }
         exit(0);
     }
 
@@ -170,6 +180,95 @@ class TaskstatusController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    private function _common_help() {
+        $rtn = array(
+            'help' => '可选，当设置为1时，不作任何操作，仅返回本命令使用方法的help',
+            'type' => '可选，可以设置成json, php之中的一个，用于指定返回的数据格式，缺省是json',
+            'retcode' => '可选，用户设置的字符串，会原样返回',
+        );
+        return $rtn;
+    }
+
+    protected function cmdEcho($param) {
+        if (isset($param['help']) && $param['help']) {
+            $rtn = array(
+                'ret' => 0, // 表明正常返回
+                'cmd' => 'echo', // 本命令
+                'description' => '原样返回发送者发送的参数', // 本命令的解释
+                'detail' => '本命令不作任何操作原样返回发送者发送的参数',
+                'auth' => null, // 无需任何权限
+                'return' => '原样返回发送者发送的参数', // 返回值的说明
+                'params' => $this->_common_help(), //本命令使用通用的参数
+            );
+        } else {
+            $rtn = array(
+                'ret' => 0, // 表明正常返回
+                'data' => $param,
+            );
+        }
+        return $rtn;
+    }
+
+    protected function cmdVersion($param) {
+        if (isset($param['help']) && $param['help']) {
+            $rtn = array(
+                'ret' => 0, // 表明正常返回
+                'cmd' => 'version', // 本命令
+                'description' => 'ymanage服务器版本信息', // 本命令的解释
+                'detail' => '返回ymanage服务器版本信息',
+                'auth' => null, // 无需任何权限
+                'return' => 'ymanage服务器版本信息', // 返回值的说明
+                'params' => $this->_common_help(), //本命令使用通用的参数
+            );
+        } else {
+            $rtn = array(
+                'ret' => 0, // 表明正常返回
+                'version' => '0.1',
+            );
+        }
+        return $rtn;
+    }
+
+    protected function cmdCommit($param) {
+        if (isset($param['help']) && $param['help']) {
+            $rtn = array(
+                'ret' => 0, // 表明正常返回
+                'cmd' => 'commit', // 本命令
+                'description' => '提交数据', // 本命令的解释
+                'detail' => '向服务器提交数据',
+                'auth' => null, // 无需任何权限
+                'return' => '数据是否正确存储', // 返回值的说明
+                'params' => array_merge($this->_common_help(), array(
+                    'uuid' => '可选，此任务唯一ID，用于多次提交信息时辨认同一任务',
+                    'hostname' => '主机名',
+                    'username' => '用户名',
+                    'taskid' => '任务id',
+                    'starttime' => '可选，任务开始时间',
+                    'endtime' => '可选，任务结束时间',
+                    'status' => '简短的结果标识，通常是OK或者NG表示成功与否',
+                    'outputtext' => '执行结果的文本',
+                        //'outputfile' => '结果文件如有',
+                        )
+                ),
+            );
+        } else {
+            $model = new Taskstatus();
+            try {
+                if ($model->load($param) && $model->save()) {
+                    $rtn['ret'] = 0;
+                    $rtn['message'] = 'OK';
+                } else {
+                    $rtn['ret'] = -3;
+                    $rtn['message'] = $model->getErrors();
+                }
+            } catch (Exception $e) {
+                $rtn['ret'] = -2;
+                $rtn['message'] = $e->message;
+            }
+        }
+        return $rtn;
     }
 
 }
