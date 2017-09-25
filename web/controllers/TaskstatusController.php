@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Taskstatus;
+use app\models\Tasks;
 use app\models\TaskstatusSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -96,7 +97,11 @@ class TaskstatusController extends Controller {
             'message' => 'error entry',
             'retcode' => '',
         );
-        $data = Yii::$app->request->post();
+        if (Yii::$app->request->getMethod() == "GET") {
+            $data = Yii::$app->request->get();
+        } else {
+            $data = Yii::$app->request->post();
+        }
         $datatype = 'json';
         if (isset($data) & $data) {
             $cmd = isset($data['cmd']) ? $data['cmd'] : 'version';
@@ -111,21 +116,6 @@ class TaskstatusController extends Controller {
                 );
             }
 
-//                try {
-//                    if ($model->load($data) && $model->save()) {
-//                        $rtn['errno'] = 0;
-//                        $rtn['message'] = 'OK';
-//                        $rtn['retcode'] = $retcode;
-//                    } else {
-//                        $rtn['errno'] = -3;
-//                        $rtn['message'] = $model->getErrors();
-//                        $rtn['retcode'] = $retcode;
-//                    }
-//                } catch (Exception $e) {
-//                    $rtn['errno'] = -2;
-//                    $rtn['message'] = $e->message;
-//                    $rtn['retcode'] = $retcode;
-//                }
             $retcode = (isset($data['retcode']) && $data['retcode'] ) ? $data['retcode'] : '';
             $rtn['retcode'] = $retcode;
         }
@@ -254,9 +244,21 @@ class TaskstatusController extends Controller {
                 ),
             );
         } else {
+            $tasks = Tasks::find()->where(['hostname' => $param['hostname'], 'command' => $param['command']]);
+            if ($tasks->count()) {
+                $param['taskid'] = $tasks->one()->id;
+            }else{
+                $tasks = new Tasks();
+                $tasks->hostname = $param['hostname'];
+                $tasks->command = $param['command'];
+                $tasks->name = basename(explode(' ', $param['command'])[0]);
+                $tasks->save();
+                $param['taskid'] = $tasks->id;
+            }
             $model = new Taskstatus();
             try {
-                if ($model->load($param) && $model->save()) {
+                $data = array('Taskstatus' => $param);
+                if ($model->load($data) && $model->save()) {
                     $rtn['ret'] = 0;
                     $rtn['message'] = 'OK';
                 } else {

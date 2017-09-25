@@ -4,7 +4,7 @@
  *   */
 session_start();
 
-$DEFAULT_SERVER_URL = 'http://manage.yulei.org/index.php?r=taskstatus/commit&XDEBUG_SESSION_START=dbgp';
+$DEFAULT_SERVER_URL = 'http://manage.yulei.org/index.php?r=taskstatus/commit';
 session_start();
 $CMD_LIST = array(
     'echo',
@@ -20,9 +20,9 @@ function getCmdInfo($cmd) {
         'type' => 'json',
         'cmd' => $cmd,
     );
-    $info = Http::api($url, $params, "POST");
+    $info = Http::api($url, $params, "GET");
     $info['auth_str'] = $info['auth'] ? $info['auth'] : '无';
-    $info['method'] = "POST";
+    $info['method'] = "BOTH";
     $info['method_str'] = strcasecmp($info['method'], 'BOTH') == 0 ? 'GET或POST' : $info['method'];
     return $info;
 }
@@ -92,7 +92,7 @@ class Http {
         curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ci, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ci, CURLOPT_HEADER, false);
-        $headers = (array) $extheaders;
+        curl_setopt($ci, CURLINFO_HEADER_OUT, TRUE);
         switch ($method) {
             case 'POST':
                 curl_setopt($ci, CURLOPT_POST, TRUE);
@@ -124,6 +124,9 @@ class Http {
         }
 
         $response = curl_exec($ci);
+        if ( $reponse === FALSE ) {
+            $reponst = 'ERROR' . curl_error($ci);
+        }
         curl_close($ci);
         return $response;
     }
@@ -239,6 +242,7 @@ class Http {
             ?>
                     <a href="<?php echo $_SERVER['PHP_SELF']; ?>">返回主页</a> | <a href="<?php echo $_SERVER['PHP_SELF'] . '?cmd=' . $cmd; ?>">继续测试</a>
                     <h4>执行命令：<?php echo $cmd; ?></h4>
+                    <h4>URL:<?php echo $url; ?></h4>
                     使用<?php echo $method; ?>方法和以下参数：
                     <ul>
                 <?php

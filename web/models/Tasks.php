@@ -9,8 +9,9 @@ use Yii;
  *
  * @property integer $id
  * @property string $name
+ * @property string $hostname
  * @property string $descript
- * @property string $cmd
+ * @property string $command
  * @property string $source
  */
 class Tasks extends \yii\db\ActiveRecord
@@ -32,7 +33,7 @@ class Tasks extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['source'], 'string'],
             [['name'], 'string', 'max' => 50],
-            [['descript', 'cmd'], 'string', 'max' => 1024],
+            [['descript', 'command'], 'string', 'max' => 1024],
         ];
     }
 
@@ -43,9 +44,10 @@ class Tasks extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', '任务id'),
+            'hostname' => Yii::t('app', '主机名'),
             'name' => Yii::t('app', '名称'),
             'descript' => Yii::t('app', '说明'),
-            'cmd' => Yii::t('app', '执行命令'),
+            'command' => Yii::t('app', '执行命令'),
             'source' => Yii::t('app', '源代码'),
         ];
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 192.168.2.26
--- Generation Time: 2017-09-19 18:38:33
+-- Generation Time: 2017-09-25 20:18:22
 -- 服务器版本： 5.7.19-0ubuntu0.16.04.1
 -- PHP Version: 7.0.22-0ubuntu0.17.04.1
 
@@ -28,9 +28,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tasks` (
   `id` int(11) NOT NULL COMMENT '任务id',
+  `hostname` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '主机名',
   `name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '名称',
   `descript` varchar(1024) COLLATE utf8_bin DEFAULT NULL COMMENT '说明',
-  `cmd` varchar(1024) COLLATE utf8_bin DEFAULT NULL COMMENT '执行命令',
+  `command` varchar(1024) COLLATE utf8_bin DEFAULT NULL COMMENT '执行命令',
   `source` longtext COLLATE utf8_bin COMMENT '源代码'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

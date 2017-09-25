@@ -15,6 +15,7 @@ use Yii;
  * @property string $starttime
  * @property string $endtime
  * @property string $status
+ * @property string $retcode
  * @property string $outputtext
  * @property string $outputfile
  */
@@ -55,6 +56,7 @@ class Taskstatus extends \yii\db\ActiveRecord
             'taskid' => Yii::t('app', '任务id'),
             'starttime' => Yii::t('app', '任务开始时间'),
             'endtime' => Yii::t('app', '任务结束时间'),
+            'retcode' => Yii::t('app', '对方要求的字串'),
             'status' => Yii::t('app', '简短的结果标识'),
             'outputtext' => Yii::t('app', '执行结果'),
             'outputfile' => Yii::t('app', '结果文件如有'),
