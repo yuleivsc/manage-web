@@ -245,6 +245,7 @@ class TaskstatusController extends Controller {
                 ),
             );
         } else {
+            date_default_timezone_set ( 'CST' );
             $tasks = Tasks::find()->where(['hostname' => $param['hostname'], 'command' => $param['command']]);
             if ($tasks->count()) {
                 $thetask = $tasks->one();
