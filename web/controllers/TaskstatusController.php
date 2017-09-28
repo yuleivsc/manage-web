@@ -249,12 +249,15 @@ class TaskstatusController extends Controller {
             $tasks = Tasks::find()->where(['hostname' => $param['hostname'], 'command' => $param['command']]);
             if ($tasks->count()) {
                 $thetask = $tasks->one();
+                $thetask->hostname = $param['hostname'];
+                $thetask->username = $param['username'];
                 $param['taskid'] = $thetask->id;
                 $thetask->lasttime = date('Y-m-d H:i:s');
                 $thetask->save();
             }else{
                 $thetask = new Tasks();
                 $thetask->hostname = $param['hostname'];
+                $thetask->username = $param['username'];
                 $thetask->command = $param['command'];
                 $thetask->name = basename(explode(' ', $param['command'])[0]);
                 $thetask->lasttime = date('Y-m-d H:i:s');

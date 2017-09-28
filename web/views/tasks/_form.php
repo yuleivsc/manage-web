@@ -12,11 +12,17 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'hostname')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'descript')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'command')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'lasttime')->textInput() ?>
 
     <?= $form->field($model, 'source')->textarea(['rows' => 6]) ?>
 
