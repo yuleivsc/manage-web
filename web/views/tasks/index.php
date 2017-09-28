@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'username',
                 'format' => 'raw',
-                'filter' => Html::activeDropDownList($searchModel, 'hostname', $searchModel->getHostnameList()
+                'filter' => Html::activeDropDownList($searchModel, 'hostname', $searchModel->getUsernameList()
                 )
             ],
             'name',
