@@ -249,14 +249,14 @@ class TaskstatusController extends Controller {
             if ($tasks->count()) {
                 $thetask = $tasks->one();
                 $param['taskid'] = $thetask->id;
-                $thetask->lasttime = date();
+                $thetask->lasttime = date('Y-m-d H:i:s');
                 $thetask->save();
             }else{
                 $thetask = new Tasks();
                 $thetask->hostname = $param['hostname'];
                 $thetask->command = $param['command'];
                 $thetask->name = basename(explode(' ', $param['command'])[0]);
-                $thetask->lasttime = date();
+                $thetask->lasttime = date('Y-m-d H:i:s');
                 $thetask->save();
                 $param['taskid'] = $thetask->id;
             }
