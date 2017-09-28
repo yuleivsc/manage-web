@@ -60,21 +60,24 @@ tempfile=`mktemp`
 starttime=`date '+%F %T'`
 cmdline="$*"
 retcode="$1"
-if [ $fileout = 1 ] && [ $syslogout = 1 ];
-then
-    eval "$*" 2>&1 | tee $tempfile | tee $logfilename | logger $syslogparam
-elif [ $fileout = 1 ] && [ $syslogout = 0 ];
-then
-    eval "$*" 2>&1 | tee $tempfile > $logfilename 
-elif [ $fileout = 0 ] && [ $syslogout = 1 ];
-then
-    eval "$@" 2>&1 | tee $tempfile | logger $syslogparam
-else
-    echo "cmd $@"
-    eval "$@" &> $tempfile 
-fi
+thepid=$$
 
-if [ $? == 0 ];
+tempstatus=`mktemp`
+(eval $@; echo $? > $tempstatus) 2>&1 | while read line ;
+do
+	thetime=`date '+%F %T'`
+	if [ $fileout = 1 ];
+	then
+		echo \[$thetime $thepid\] $line >> $logfilename
+	fi
+	if [ $syslogout = 1 ];
+	then
+		echo \[$thepid\] $line | logger $syslogparam
+	fi
+	echo \[$thetime $thepid\] $line  >> $tempfile
+done
+
+if [ `cat $tempstatus` = 0 ];
 then
     status='OK'
 else
@@ -91,3 +94,4 @@ postparam="uuid=$uuid&hostname=$hostname&username=$username&status=$status&retco
 
 curl $verbose -X "POST"  -d "cmd=commit" -d "$postparam" --data-urlencode "starttime=$starttime" --data-urlencode "endtime=$endtime" --data-urlencode "outputtext=$outputtext" --data-urlencode "command=$cmdline" $YMANAGE_URL  
 
+rm $tempfile $tempstatus > /dev/null

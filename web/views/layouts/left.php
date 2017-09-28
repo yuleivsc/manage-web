@@ -38,6 +38,12 @@
                             ['label' => 'YL', 'icon' => 'file-code-o', 'url' => 'https://yulei.yulei.org:8008/nagios3',],
                         ],
                     ],
+                    ['label' => 'tasks', 'icon' => 'file-code-o', 'url' => '#',
+                        'items' => [
+                            ['label' => 'taskstatus', 'icon' => 'file-code-o', 'url' => ['/taskstatus'],],
+                            ['label' => 'task', 'icon' => 'file-code-o', 'url' => ['/tasks'],],
+                        ],
+                    ],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     /*['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [

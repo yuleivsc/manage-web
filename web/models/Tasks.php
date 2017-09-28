@@ -49,6 +49,7 @@ class Tasks extends \yii\db\ActiveRecord
             'descript' => Yii::t('app', '说明'),
             'command' => Yii::t('app', '执行命令'),
             'source' => Yii::t('app', '源代码'),
+            'lasttime' => Yii::t('app', '最后一次执行的时间'),
         ];
     }
 }

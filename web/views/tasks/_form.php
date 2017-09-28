@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'descript')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'cmd')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'command')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'source')->textarea(['rows' => 6]) ?>
 

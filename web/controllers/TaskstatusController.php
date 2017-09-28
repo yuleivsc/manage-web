@@ -235,6 +235,7 @@ class TaskstatusController extends Controller {
                     'hostname' => '主机名',
                     'username' => '用户名',
                     'taskid' => '任务id',
+                    'command' => '命令',
                     'starttime' => '可选，任务开始时间',
                     'endtime' => '可选，任务结束时间',
                     'status' => '简短的结果标识，通常是OK或者NG表示成功与否',
@@ -246,14 +247,18 @@ class TaskstatusController extends Controller {
         } else {
             $tasks = Tasks::find()->where(['hostname' => $param['hostname'], 'command' => $param['command']]);
             if ($tasks->count()) {
-                $param['taskid'] = $tasks->one()->id;
+                $thetask = $tasks->one();
+                $param['taskid'] = $thetask->id;
+                $thetask->lasttime = date();
+                $thetask->save();
             }else{
-                $tasks = new Tasks();
-                $tasks->hostname = $param['hostname'];
-                $tasks->command = $param['command'];
-                $tasks->name = basename(explode(' ', $param['command'])[0]);
-                $tasks->save();
-                $param['taskid'] = $tasks->id;
+                $thetask = new Tasks();
+                $thetask->hostname = $param['hostname'];
+                $thetask->command = $param['command'];
+                $thetask->name = basename(explode(' ', $param['command'])[0]);
+                $thetask->lasttime = date();
+                $thetask->save();
+                $param['taskid'] = $thetask->id;
             }
             $model = new Taskstatus();
             try {
