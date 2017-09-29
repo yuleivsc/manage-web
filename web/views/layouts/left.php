@@ -40,7 +40,7 @@
                     ],
                     ['label' => 'tasks', 'icon' => 'file-code-o', 'url' => '#',
                         'items' => [
-                            ['label' => 'taskstatus', 'icon' => 'file-code-o', 'url' => ['/taskstatus'],],
+                            ['label' => 'taskstatus', 'icon' => 'file-code-o', 'url' => ['/taskstatus','sort'=>'-endtime']],
                             ['label' => 'task', 'icon' => 'file-code-o', 'url' => ['/tasks'],],
                         ],
                     ],

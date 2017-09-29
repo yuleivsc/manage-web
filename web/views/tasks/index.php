@@ -14,10 +14,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="tasks-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-<?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]);  ?>
 
     <p>
-    <?= Html::a(Yii::t('app', 'Create Tasks'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Tasks'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php Pjax::begin(); ?>    <?=
     GridView::widget([
@@ -27,7 +27,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             //'id',
             [
-                //'label' => '年份',
                 'attribute' => 'hostname',
                 'format' => 'raw',
                 'filter' => Html::activeDropDownList($searchModel, 'hostname', $searchModel->getHostnameList()
@@ -36,16 +35,28 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'username',
                 'format' => 'raw',
-                'filter' => Html::activeDropDownList($searchModel, 'hostname', $searchModel->getUsernameList()
+                'filter' => Html::activeDropDownList($searchModel, 'username', $searchModel->getUsernameList()
                 )
             ],
-            'name',
+            [
+                //'class' => DataColumn::className(), // this line is optional
+                'attribute' => 'name',
+                'format' => 'raw',
+                'filter' => true,
+                'value' => function($data) {
+                    //return Html::a(Html::encode($data->name), $url, $options);
+                    return Html::a(Html::encode($data->name), ['/taskstatus', 'TaskstatusSearch[taskid]'=>$data->id]);
+                }
+            ],
             'descript',
             'command',
-            'lasttime',
+            [
+                'attribute' => 'lasttime',
+                'filter' => false,
+            ],
             // 'source:ntext',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);
     ?>
-<?php Pjax::end(); ?></div>
+    <?php Pjax::end(); ?></div>

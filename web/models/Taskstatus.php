@@ -73,4 +73,48 @@ class Taskstatus extends \yii\db\ActiveRecord {
         return new TaskstatusQuery(get_called_class());
     }
 
+    public function getTask() {
+        return Tasks::find()->where(['id' => $this->taskid]);
+    }
+
+    public function getHostnameList() {
+        $result = $this->find()->select('hostname')->distinct(true)->asArray()->all();
+        $list = array('' => '全部');
+        foreach (array_values($result) as $y) {
+            $list[$y['hostname']] = $y['hostname'];
+        }
+        arsort($list);
+        return $list;
+    }
+
+    public function getUsernameList() {
+        $result = $this->find()->select('username')->distinct(true)->asArray()->all();
+        $list = array('' => '全部');
+        foreach (array_values($result) as $y) {
+            $list[$y['username']] = $y['username'];
+        }
+        arsort($list);
+        return $list;
+    }
+
+    public function getStatusList() {
+        $result = $this->find()->select('status')->distinct(true)->asArray()->all();
+        $list = array('' => '全部');
+        foreach (array_values($result) as $y) {
+            $list[$y['status']] = $y['status'];
+        }
+        arsort($list);
+        return $list;
+    }
+
+    public function getTaskList() {
+        $result = Tasks::find()->distinct(true)->asArray()->all();
+        $list = array('' => '全部');
+        foreach (array_values($result) as $y) {
+            $list[$y['id']] = $y['name'];
+        }
+        arsort($list);
+        return $list;
+    }
+
 }
