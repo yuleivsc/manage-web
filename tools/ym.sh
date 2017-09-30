@@ -6,13 +6,14 @@ usage(){
     echo "Usage: $0 [options --] shell [argments]"
     echo '    options:'
     echo '      -h或--help 显示这个帮助'
+    echo '      -H或--hostname 设置主机名，而不是使用系统的主机名'
     echo '      -v或--verbose 显示较多信息'
     echo '      -l logfile  命令行输出存储到logfile中'
     echo '      --syslog[=syslog]参数 命令行输出到系统日志中且为syslog加参数'
     exit 0
 }
 
-OPTPROC=`getopt -o hs::l:v --long help,syslog::,logfile:,verbose -- "$@"`
+OPTPROC=`getopt -o hs::l:vH: --long help,syslog::,logfile:,verbose,hostname: -- "$@"`
 
 if [ $? != 0 ] ; then usage ;  fi
 
@@ -21,6 +22,7 @@ eval set -- "$OPTPROC"
 fileout=0
 syslogout=0
 verbose='--silent'
+hostname=`hostname`
 
 while true ; do
     case "$1" in
@@ -34,6 +36,10 @@ while true ; do
         -l|--logfile)
             fileout=1
 	    logfilename=$2
+	    shift 2
+            ;;
+        -H|--hostname)
+	    hostname=$2
 	    shift 2
             ;;
         --syslog)
@@ -86,7 +92,6 @@ fi
 endtime=`date '+%F %T'`
 
 uuid=`uuid`
-hostname=`hostname`
 username=`id -un`
 outputtext=`cat $tempfile`
 #postparam="cmd=commit&uuid=$uuid&hostname=$hostname&username=$username&starttime=$starttime&endtime=$endtime&status=$status&retcode=$retcode"
