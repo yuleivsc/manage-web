@@ -63,7 +63,7 @@ class TasksSearch extends Tasks
             'lasttime' => $this->lasttime,
         ]);
 
-        $query->andFilterWhere(['like', 'hostname', $this->hostname])
+        $query->andFilterWhere([ 'hostname' => $this->hostname])
             ->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'descript', $this->descript])

@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Issue;
+use app\models\Books;
 
 /**
- * IssueSearch represents the model behind the search form about `app\models\Issue`.
+ * BooksSearch represents the model behind the search form about `app\models\Books`.
  */
-class IssueSearch extends Issue
+class BooksSearch extends Books
 {
     /**
      * @inheritdoc
@@ -18,8 +18,9 @@ class IssueSearch extends Issue
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['gch', 'year', 'yearissue', 'taskid', 'source', 'listscan', 'pdfscan'], 'safe'],
+            [['id', 'no', 'noend', 'number'], 'integer'],
+            [['title', 'class', 'subclass', 'date', 'comment'], 'safe'],
+            [['price'], 'number'],
         ];
     }
 
@@ -41,7 +42,7 @@ class IssueSearch extends Issue
      */
     public function search($params)
     {
-        $query = Issue::find();
+        $query = Books::find();
 
         // add conditions that should always apply here
 
@@ -60,15 +61,27 @@ class IssueSearch extends Issue
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+//            'date' => $this->date,
+            'price' => $this->price,
+            'no' => $this->no,
+            'noend' => $this->noend,
+            'number' => $this->number,
+            //'class'=> $this->class,
         ]);
 
-        $query->andFilterWhere(['like', 'gch', $this->gch])
-            ->andFilterWhere(['like', 'year', $this->year])
-            ->andFilterWhere(['like', 'yearissue', $this->yearissue])
-            ->andFilterWhere(['like', 'taskid', $this->taskid])
-            ->andFilterWhere(['like', 'source', $this->source])
-            ->andFilterWhere(['like', 'listscan', $this->listscan])
-            ->andFilterWhere(['like', 'pdfscan', $this->pdfscan]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'date', $this->date])
+            ->andFilterWhere(['like', 'comment', $this->comment]);
+        if ( $this->class == 'null') {
+            $query -> andWhere(['class' => null ]);
+        } else {
+            $query -> andFilterWhere(['class' => $this->class ]);
+        }
+        if ( $this->subclass == 'null') {
+            $query -> andWhere(['subclass' => null ]);
+        } else {
+            $query -> andFilterWhere(['subclass' => $this->subclass ]);
+        }
 
         return $dataProvider;
     }

@@ -61,14 +61,17 @@ class TaskstatusSearch extends Taskstatus
         $query->andFilterWhere([
             'id' => $this->id,
             'taskid' => $this->taskid,
-            'starttime' => $this->starttime,
-            'endtime' => $this->endtime,
+            'hostname' => $this->hostname,
+            'username' => $this->username,
+            'status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'uuid', $this->uuid])
-            ->andFilterWhere(['like', 'hostname', $this->hostname])
-            ->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'status', $this->status])
+//            ->andFilterWhere([ 'hostname'=> $this->hostname])
+//            ->andFilterWhere(['username'=> $this->username])
+//            ->andFilterWhere(['status'=> $this->status])
+            ->andFilterWhere(['like', 'starttime', $this->starttime])
+            ->andFilterWhere(['like', 'endtime', $this->endtime])
             ->andFilterWhere(['like', 'outputtext', $this->outputtext])
             ->andFilterWhere(['like', 'outputfile', $this->outputfile]);
 

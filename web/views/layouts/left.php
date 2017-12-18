@@ -35,13 +35,18 @@
                     ['label' => 'nagios', 'icon' => 'file-code-o', 'url' => '#',
                         'items' => [
                             ['label' => 'Qizhi', 'icon' => 'file-code-o', 'url' => 'http://svn.china-qizhi.com/nagios3',],
-                            ['label' => 'YL', 'icon' => 'file-code-o', 'url' => 'https://yulei.yulei.org:8008/nagios3',],
+                            ['label' => 'YL', 'icon' => 'file-code-o', 'url' => 'http://yulei.yulei.org:8008/nagios3',],
                         ],
                     ],
                     ['label' => 'tasks', 'icon' => 'file-code-o', 'url' => '#',
                         'items' => [
                             ['label' => 'taskstatus', 'icon' => 'file-code-o', 'url' => ['/taskstatus','sort'=>'-endtime']],
                             ['label' => 'task', 'icon' => 'file-code-o', 'url' => ['/tasks'],],
+                        ],
+                    ],
+                    ['label' => 'books', 'icon' => 'file-code-o', 'url' => '#',
+                        'items' => [
+                            ['label' => 'books', 'icon' => 'file-code-o', 'url' => ['/books','sort'=>'-endtime']],
                         ],
                     ],
                     ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
