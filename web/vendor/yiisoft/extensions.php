@@ -75,4 +75,76 @@ return array (
       '@dmstr' => $vendorDir . '/dmstr/yii2-adminlte-asset',
     ),
   ),
+  'kartik-v/yii2-krajee-base' => 
+  array (
+    'name' => 'kartik-v/yii2-krajee-base',
+    'version' => '1.8.9.0',
+    'alias' => 
+    array (
+      '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base',
+    ),
+  ),
+  'kartik-v/yii2-grid' => 
+  array (
+    'name' => 'kartik-v/yii2-grid',
+    'version' => '3.1.1.0',
+    'alias' => 
+    array (
+      '@kartik/grid' => $vendorDir . '/kartik-v/yii2-grid',
+    ),
+  ),
+  'kartik-v/yii2-popover-x' => 
+  array (
+    'name' => 'kartik-v/yii2-popover-x',
+    'version' => '1.3.4.0',
+    'alias' => 
+    array (
+      '@kartik/popover' => $vendorDir . '/kartik-v/yii2-popover-x',
+    ),
+  ),
+  'kartik-v/yii2-editable' => 
+  array (
+    'name' => 'kartik-v/yii2-editable',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/editable' => $vendorDir . '/kartik-v/yii2-editable',
+    ),
+  ),
+  'kartik-v/yii2-widget-touchspin' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-touchspin',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/touchspin' => $vendorDir . '/kartik-v/yii2-widget-touchspin',
+    ),
+  ),
+  'kartik-v/yii2-widget-datepicker' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-datepicker',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/date' => $vendorDir . '/kartik-v/yii2-widget-datepicker',
+    ),
+  ),
+  'kartik-v/yii2-widget-datetimepicker' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-datetimepicker',
+    'version' => '1.4.4.0',
+    'alias' => 
+    array (
+      '@kartik/datetime' => $vendorDir . '/kartik-v/yii2-widget-datetimepicker',
+    ),
+  ),
+  'kartik-v/yii2-money' => 
+  array (
+    'name' => 'kartik-v/yii2-money',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/money' => $vendorDir . '/kartik-v/yii2-money',
+    ),
+  ),
 );

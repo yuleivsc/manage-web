@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
+use kartik\editable\Editable;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\BooksSearch */
@@ -23,14 +25,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'formatter' => ['class' => 'yii\i18n\Formatter', 'nullDisplay' => ''],
+        'export' => false,
         'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\SerialColumn'],
             //'id',
             [
                 'attribute' => 'no',
-                'format' => 'text',
+                'format' => 'integer',
                 'contentOptions' => [
                     'width' => '5%'
+                ],
+                'class' => 'kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'valueIfNull' => '<em></em>',
                 ],
             ],
             [
@@ -39,6 +46,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => [
                     'width' => '5%'
                 ],
+                'class' => 'kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'valueIfNull' => '<em></em>',
+                ],
             ],
             [
                 'attribute' => 'title',
@@ -46,6 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => [
                     'width' => '30%'
                 ],
+                'class' => 'kartik\grid\EditableColumn',
+            //'editableOptions' => [
+            //    'asPopover' => false,
+            //],
             ],
             [
                 'attribute' => 'class',
@@ -54,6 +69,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     'width' => '10%'
                 ],
                 'filter' => Html::activeDropDownList($searchModel, 'class', $searchModel->getClassList()),
+                'class' => 'kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                    'data' => $searchModel->getClassList(false),
+                    'asPopover' => true,
+                    'valueIfNull' => '<em></em>',
+                //'pluginOptions' => [
+                //    'prefix' => '$',
+                //],
+                ],
             ],
             [
                 'attribute' => 'subclass',
@@ -62,12 +87,33 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => [
                     'width' => '10%'
                 ],
+                'class' => 'kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                    'data' => $searchModel->getSubclassList($params, false),
+                    'asPopover' => true,
+                    'valueIfNull' => '<em></em>',
+                ],
             ],
             [
                 'attribute' => 'date',
                 'format' => 'text',
                 'contentOptions' => [
                     'width' => '8%'
+                ],
+                'class' => 'kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'inputType' => \kartik\editable\Editable::INPUT_DATE,
+                    //'asPopover' => false,
+                    //这个设定我们组件的宽度
+                    'contentOptions' => ['style' => 'width:180px'],
+                    'options' => [
+                        'pluginOptions' => [
+                            //设定我们日期组件的格式
+                            'format' => 'yyyy-mm-dd',
+                        ],
+                    ],
+                    'valueIfNull' => '<em></em>',
                 ],
             ],
             [
@@ -76,25 +122,48 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => [
                     'width' => '5%'
                 ],
+                'class' => 'kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'inputType' => \kartik\editable\Editable::INPUT_MONEY,
+                    'valueIfNull' => '<em></em>',
+                //'pluginOptions' => [
+                //    'prefix' => '$',
+                //],
+                ],
             ],
             [
                 'attribute' => 'number',
-                'format' => 'text',
+                'format' => 'integer',
                 'contentOptions' => [
                     'width' => '5%'
                 ],
+                'class' => 'kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'inputType' => \kartik\editable\Editable::INPUT_SPIN,
+                    'pluginOptions' => [
+                    //        'prefix' => '$',
+                                         ],
+                    'valueIfNull' => '<em></em>',
+                ],
             ],
-            'comment',
+            [
+                'attribute' => 'comment',
+                'format' => 'text',
+                'class' => 'kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'inputType' => \kartik\editable\Editable::INPUT_TEXTAREA,
+                    'options' => [
+                        'rows' => 4,
+                        'valueIfNull' => '',
+                    ],
+                    'valueIfNull' => '<em></em>',
+                ],
+            ],
             //['class' => 'yii\grid\ActionColumn'],
             [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => '操作',
-                'template' => '{view} {update} {update-status}',
-                'buttons' => [
-                    'update-status' => function ($url, $model, $key) {
-                        return Html::a('更新', 'javascript:;', ['onclick' => 'update_status(this, ' . $model->id . ');']);
-                    },
-                ],
+                'template' => '{view} {update}',
             ],
         ],
     ]);

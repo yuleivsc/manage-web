@@ -33,6 +33,18 @@ class ComposerStaticInit2ac60fcfe0804d3cd3adea7b35ffdc4c
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'k' => 
+        array (
+            'kartik\\touchspin\\' => 17,
+            'kartik\\popover\\' => 15,
+            'kartik\\plugins\\popover\\' => 23,
+            'kartik\\money\\' => 13,
+            'kartik\\grid\\' => 12,
+            'kartik\\editable\\' => 16,
+            'kartik\\datetime\\' => 16,
+            'kartik\\date\\' => 12,
+            'kartik\\base\\' => 12,
+        ),
         'd' => 
         array (
             'dmstr\\' => 6,
@@ -121,6 +133,42 @@ class ComposerStaticInit2ac60fcfe0804d3cd3adea7b35ffdc4c
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'kartik\\touchspin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-touchspin',
+        ),
+        'kartik\\popover\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-popover-x',
+        ),
+        'kartik\\plugins\\popover\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-popover-x',
+        ),
+        'kartik\\money\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-money',
+        ),
+        'kartik\\grid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-grid',
+        ),
+        'kartik\\editable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-editable',
+        ),
+        'kartik\\datetime\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datetimepicker',
+        ),
+        'kartik\\date\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datepicker',
+        ),
+        'kartik\\base\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
         ),
         'dmstr\\' => 
         array (

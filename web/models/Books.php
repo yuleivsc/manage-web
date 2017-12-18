@@ -102,7 +102,7 @@ class Books extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['title', 'comment'], 'required'],
+            [['title'], 'required'],
             [['date'], 'safe'],
             [['price'], 'number'],
             [['no', 'noend', 'number'], 'integer'],
@@ -138,10 +138,14 @@ class Books extends \yii\db\ActiveRecord {
         return new BooksQuery(get_called_class());
     }
 
-    public function getClassList() {
+    public function getClassList($ifselect = true) {
         $result = $this->find()->select('class')->distinct(true)->asArray()->all();
-        $list[''] = '全部';
-        $list['null'] = '无';
+        if ($ifselect) {
+            $list[''] = '全部';
+            $list['null'] = '无';
+        } else {
+            $list = array();
+        }
         $l = $this->classList();
         foreach ($l as $c => $s) {
             $list[$c] = $c . ':' . $s;
@@ -149,7 +153,7 @@ class Books extends \yii\db\ActiveRecord {
         return $list;
     }
 
-    public function getSubclassList($data) {
+    public function getSubclassList($data, $ifselect = true) {
 
         $theclass = null;
         if ($data && key_exists('BooksSearch', $data)) {
@@ -158,13 +162,18 @@ class Books extends \yii\db\ActiveRecord {
                 $theclass = $param['class'];
             }
         }
-        $list = array('' => '全部');
-        $list['null'] = '无';
+
+        if ($ifselect) {
+            $list[''] = '全部';
+            $list['null'] = '无';
+        } else {
+            $list = array();
+        }
         if ($theclass === 'null') {
             $l = $this->find()->select('subclass')->where(['class' => null])->distinct(true)->asArray()->all();
             foreach ($l as $c) {
-                if ( $c ) {
-                    $list[$c['subclass']] = $c['subclass'] ;
+                if ($c) {
+                    $list[$c['subclass']] = $c['subclass'];
                 }
             }
         } else {
