@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'isbn',
                 'format' => 'text',
                 'contentOptions' => [
-                    'width' => '10%'
+                    'width' => '7%'
                 ],
                 'class' => 'kartik\grid\EditableColumn',
                 'editableOptions' => [
@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'class',
                 'format' => 'raw',
                 'contentOptions' => [
-                    'width' => '10%'
+                    'width' => '5%'
                 ],
                 'filter' => Html::activeDropDownList($searchModel, 'class', $searchModel->getClassList()),
                 'class' => 'kartik\grid\EditableColumn',
@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'raw',
                 'filter' => Html::activeDropDownList($searchModel, 'subclass', $searchModel->getSubclassList($params)),
                 'contentOptions' => [
-                    'width' => '10%'
+                    'width' => '5%'
                 ],
                 'class' => 'kartik\grid\EditableColumn',
                 'editableOptions' => [
@@ -110,7 +110,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'date',
                 'format' => 'text',
                 'contentOptions' => [
-                    'width' => '8%'
+                    'width' => '7%'
                 ],
                 'class' => 'kartik\grid\EditableColumn',
                 'editableOptions' => [
