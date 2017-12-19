@@ -27,7 +27,7 @@ foreach ($a as $b) {
         } else {
             echo "ERROR: noend !  $b[0]  $b[1]\n";
         }
-    }elseif ($b[6]) {
+    } elseif ($b[6]) {
         $t = $b;
         $i = $b[6];
         array_unshift($t, $i);
@@ -43,6 +43,27 @@ foreach ($a as $b) {
 ksort($list);
 //var_dump($list);
 foreach ($list as $i => $l) {
-    fputcsv(STDOUT, $l);
+    //fputcsv(STDOUT, $l);
+}
+
+$status = 0;
+$start = 1;
+for ($i = 1; $i < 633; $i++) {
+    if (isset($list[$i])) {
+        if ( $status == 1 ) {
+            $status = 0;
+            $end = $i - 1;
+            echo "$start - $end\n";
+        }
+    } else {
+        if ($status == 0) {
+            $status = 1;
+            $start = $i;
+        }
+    }
+}
+if ($status == 1) {
+    $end = $i - 1;
+    echo "$start - $end\n";
 }
 ?>

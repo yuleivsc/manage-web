@@ -13,6 +13,7 @@ use Yii;
  * @property string $subclass
  * @property string $date
  * @property string $price
+ * @property string $isbn
  * @property integer $no
  * @property integer $noend
  * @property integer $number
@@ -104,11 +105,12 @@ class Books extends \yii\db\ActiveRecord {
         return [
             [['title'], 'required'],
             [['date'], 'safe'],
+            [['isbn'], 'safe'],
             [['price'], 'number'],
             [['no', 'noend', 'number'], 'integer'],
             [['title', 'comment'], 'string', 'max' => 512],
             [['class'], 'string', 'max' => 1],
-            [['subclass'], 'string', 'max' => 3],
+            [['subclass'], 'string', 'max' => 5],
         ];
     }
 
@@ -124,6 +126,7 @@ class Books extends \yii\db\ActiveRecord {
             'date' => Yii::t('app', '购入日期'),
             'price' => Yii::t('app', '价格'),
             'no' => Yii::t('app', '编号'),
+            'isbn' => Yii::t('app', 'ISBN'),
             'noend' => Yii::t('app', ''),
             'number' => Yii::t('app', '册数'),
             'comment' => Yii::t('app', '备注'),

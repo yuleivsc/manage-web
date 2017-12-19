@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'noend',
-                'format' => 'text',
+                'format' => 'integer',
                 'contentOptions' => [
                     'width' => '5%'
                 ],
@@ -61,6 +61,17 @@ $this->params['breadcrumbs'][] = $this->title;
             //'editableOptions' => [
             //    'asPopover' => false,
             //],
+            ],
+            [
+                'attribute' => 'isbn',
+                'format' => 'text',
+                'contentOptions' => [
+                    'width' => '10%'
+                ],
+                'class' => 'kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'valueIfNull' => '<em></em>',
+                ],
             ],
             [
                 'attribute' => 'class',
@@ -142,7 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'inputType' => \kartik\editable\Editable::INPUT_SPIN,
                     'pluginOptions' => [
                     //        'prefix' => '$',
-                                         ],
+                    ],
                     'valueIfNull' => '<em></em>',
                 ],
             ],

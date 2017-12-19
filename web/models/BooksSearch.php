@@ -10,16 +10,15 @@ use app\models\Books;
 /**
  * BooksSearch represents the model behind the search form about `app\models\Books`.
  */
-class BooksSearch extends Books
-{
+class BooksSearch extends Books {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id', 'no', 'noend', 'number'], 'integer'],
-            [['title', 'class', 'subclass', 'date', 'comment'], 'safe'],
+            [['title', 'class', 'subclass', 'date', 'comment', 'isbn'], 'safe'],
             [['price'], 'number'],
         ];
     }
@@ -27,8 +26,7 @@ class BooksSearch extends Books
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -40,8 +38,7 @@ class BooksSearch extends Books
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Books::find();
 
         // add conditions that should always apply here
@@ -66,23 +63,25 @@ class BooksSearch extends Books
             'no' => $this->no,
             'noend' => $this->noend,
             'number' => $this->number,
-            //'class'=> $this->class,
+                //'class'=> $this->class,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'date', $this->date])
-            ->andFilterWhere(['like', 'comment', $this->comment]);
-        if ( $this->class == 'null') {
-            $query -> andWhere(['class' => null ]);
+                ->andFilterWhere(['like', 'date', $this->date])
+                ->andFilterWhere(['like', 'isbn', $this->isbn])
+                ->andFilterWhere(['like', 'comment', $this->comment]);
+        if ($this->class == 'null') {
+            $query->andWhere(['class' => null]);
         } else {
-            $query -> andFilterWhere(['class' => $this->class ]);
+            $query->andFilterWhere(['class' => $this->class]);
         }
-        if ( $this->subclass == 'null') {
-            $query -> andWhere(['subclass' => null ]);
+        if ($this->subclass == 'null') {
+            $query->andWhere(['subclass' => null]);
         } else {
-            $query -> andFilterWhere(['subclass' => $this->subclass ]);
+            $query->andFilterWhere(['subclass' => $this->subclass]);
         }
 
         return $dataProvider;
     }
+
 }
