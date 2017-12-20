@@ -28,10 +28,16 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'number')->textInput() ?>
 
+    <?= $form->field($model, 'isbn')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'comment')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'finddate')->textInput() ?>
+
+    <?= $form->field($model, 'unnoflag')->textInput() ?>
+
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
