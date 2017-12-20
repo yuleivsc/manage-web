@@ -18,6 +18,8 @@ use Yii;
  * @property integer $noend
  * @property integer $number
  * @property string $comment
+ * @property string $finddate 
+ * @property integer $unnoflag 
  */
 class Books extends \yii\db\ActiveRecord {
 
@@ -106,11 +108,13 @@ class Books extends \yii\db\ActiveRecord {
             [['title'], 'required'],
             [['date'], 'safe'],
             [['isbn'], 'safe'],
+            [['date', 'finddate'], 'safe'],
             [['price'], 'number'],
-            [['no', 'noend', 'number'], 'integer'],
+            [['no', 'noend', 'number', 'unnoflag'], 'integer'],
             [['title', 'comment'], 'string', 'max' => 512],
             [['class'], 'string', 'max' => 1],
-            [['subclass'], 'string', 'max' => 5],
+            [['subclass'], 'string', 'max' => 8],
+            [['isbn'], 'string', 'max' => 32],
         ];
     }
 
@@ -125,11 +129,13 @@ class Books extends \yii\db\ActiveRecord {
             'subclass' => Yii::t('app', '小分类'),
             'date' => Yii::t('app', '购入日期'),
             'price' => Yii::t('app', '价格'),
-            'no' => Yii::t('app', '编号'),
-            'isbn' => Yii::t('app', 'ISBN'),
-            'noend' => Yii::t('app', ''),
+            'no' => Yii::t('app', '总号'),
+            'noend' => Yii::t('app', '结束总号'),
             'number' => Yii::t('app', '册数'),
+            'isbn' => Yii::t('app', 'ISBN'),
             'comment' => Yii::t('app', '备注'),
+            'finddate' => Yii::t('app', '最后查找到这本实体书的时间'),
+            'unnoflag' => Yii::t('app', '是否要编号, 0已经编号 1 不要编号 2需要 9问题'),
         ];
     }
 
