@@ -4,6 +4,8 @@
 
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://git.china-qizhi.com/yulei/manage-web/raw/master/tools/ym.sh'
+FILE_DATE='$Date$'
+FILE_VERSION=0.8
 
 usage(){
     echo "Usage: $0 [options --] shell [argments]"
