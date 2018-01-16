@@ -2,8 +2,8 @@
 
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
-FILE_VERSION='0.8.1'
-FILE_DATE='$Date:2018-01-16T14:47:50+08:00$'
+FILE_VERSION='0.8.2'
+FILE_DATE='$Date:2018-01-16T14:49:11+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] shell [argments]"
