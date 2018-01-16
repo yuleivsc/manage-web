@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# $Date:Tue Jan 16 10:42:40 2018 +0800$
+# $Date:Tue Jan 16 11:05:30 2018 +0800$
 
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://git.china-qizhi.com/yulei/manage-web/raw/master/tools/ym.sh'
-FILE_DATE='$Date:Tue Jan 16 10:42:40 2018 +0800$'
+FILE_DATE='$Date:Tue Jan 16 11:05:30 2018 +0800$'
 FILE_VERSION=0.8
 aaa
 
