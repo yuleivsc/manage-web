@@ -1,6 +1,9 @@
 #!/bin/bash
 
+# $Id$
+
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
+FILE_URL='https://git.china-qizhi.com/yulei/manage-web/raw/master/tools/ym.sh'
 
 usage(){
     echo "Usage: $0 [options --] shell [argments]"
@@ -10,6 +13,9 @@ usage(){
     echo '      -v或--verbose 显示较多信息'
     echo '      -l logfile  命令行输出存储到logfile中'
     echo '      --syslog[=syslog]参数 命令行输出到系统日志中且为syslog加参数'
+    echo '      -v或--version 显示当前版本，并且检查版本有无更新'
+    echo '      -u或--upgrade 实施版本自动更新'
+    echo '      当使用-v或-u选项时，其他选项不起作用，并且不会实际执行shell命令'
     exit 0
 }
 
