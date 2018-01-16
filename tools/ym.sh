@@ -3,7 +3,7 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.2'
-FILE_DATE='$Date:2018-01-16T14:49:11+08:00$'
+FILE_DATE='$Date:2018-01-16T14:53:46+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] shell [argments]"
@@ -13,13 +13,18 @@ usage(){
     echo '      -v或--verbose 显示较多信息'
     echo '      -l logfile  命令行输出存储到logfile中'
     echo '      --syslog[=syslog]参数 命令行输出到系统日志中且为syslog加参数'
-    echo '      -v或--version 显示当前版本，并且检查版本有无更新'
+    echo '      --version 显示当前版本，并且检查版本有无更新'
     echo '      -u或--upgrade 实施版本自动更新'
-    echo '         当使用-h,-v,-u选项时，其他选项不起作用，并且不会实际执行shell命令'
+    echo '         当使用-h,--version,-u选项时，其他选项不起作用，并且不会实际执行shell命令'
     exit 0
 }
 
-OPTPROC=`getopt -o hs::l:vH: --long help,syslog::,logfile:,verbose,hostname: -- "$@"`
+version() {
+    echo $FILE_VERSION  $FILE_DATE
+    exit 0
+}
+
+OPTPROC=`getopt -o hs::l:vH: --long help,syslog::,logfile:,verbose,hostname:,version -- "$@"`
 
 if [ $? != 0 ] ; then usage ;  fi
 
@@ -54,6 +59,9 @@ while true ; do
                 "") syslogparam='' ; shift 2 ;;
                 *)  syslogparam=$2 ; shift 2 ;;
             esac 
+	    ;;
+	--version)
+	    version
 	    ;;
 	--) 
 	    shift
