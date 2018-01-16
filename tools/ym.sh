@@ -3,7 +3,7 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.2'
-FILE_DATE='$Date:2018-01-16T15:26:51+08:00$'
+FILE_DATE='$Date:2018-01-16T15:53:36+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] shell [argments]"
@@ -28,7 +28,7 @@ upgrade() {
     tempshell=`mktemp`
     myshell=$0
     wget -q -O $tempshell $FILE_URL
-    diff $tempshell $myshell
+    diff -q $tempshell $myshell
     if [ $? == 1 ];
     then
        cmd="cp $tempshell $myshell"
