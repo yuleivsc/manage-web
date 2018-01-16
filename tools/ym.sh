@@ -1,30 +1,30 @@
 #!/bin/bash
 
-# $Date$
+# $Date:Tue Jan 16 10:42:40 2018 +0800$
 
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://git.china-qizhi.com/yulei/manage-web/raw/master/tools/ym.sh'
-FILE_DATE='$Date$'
+FILE_DATE='$Date:Tue Jan 16 10:42:40 2018 +0800$'
 FILE_VERSION=0.8
 aaa
 
 usage(){
-    echo "Usage: $0 [options --] shell [argments]"
-    echo '    options:'
-    echo '      -h或--help 显示这个帮助'
-    echo '      -H或--hostname 设置主机名，而不是使用系统的主机名'
-    echo '      -v或--verbose 显示较多信息'
-    echo '      -l logfile  命令行输出存储到logfile中'
-    echo '      --syslog[=syslog]参数 命令行输出到系统日志中且为syslog加参数'
-    echo '      -v或--version 显示当前版本，并且检查版本有无更新'
-    echo '      -u或--upgrade 实施版本自动更新'
-    echo '      当使用-v或-u选项时，其他选项不起作用，并且不会实际执行shell命令'
-    exit 0
+echo "Usage: $0 [options --] shell [argments]"
+echo ' options:'
+echo ' -h或--help 显示这个帮助'
+echo ' -H或--hostname 设置主机名，而不是使用系统的主机名'
+echo ' -v或--verbose 显示较多信息'
+echo ' -l logfile 命令行输出存储到logfile中'
+echo ' --syslog[=syslog]参数 命令行输出到系统日志中且为syslog加参数'
+echo ' -v或--version 显示当前版本，并且检查版本有无更新'
+echo ' -u或--upgrade 实施版本自动更新'
+echo ' 当使用-v或-u选项时，其他选项不起作用，并且不会实际执行shell命令'
+exit 0
 }
 
 OPTPROC=`getopt -o hs::l:vH: --long help,syslog::,logfile:,verbose,hostname: -- "$@"`
 
-if [ $? != 0 ] ; then usage ;  fi
+if [ $? != 0 ] ; then usage ; fi
 
 eval set -- "$OPTPROC"
 
@@ -34,41 +34,41 @@ verbose='--silent'
 hostname=`hostname`
 
 while true ; do
-    case "$1" in
-        -v|--verbose)
-            verbose=''
-	    shift
-            ;;
-        -h|--help)
-            usage
-            ;;
-        -l|--logfile)
-            fileout=1
-	    logfilename=$2
-	    shift 2
-            ;;
-        -H|--hostname)
-	    hostname=$2
-	    shift 2
-            ;;
-        --syslog)
-            syslogout=1
-	    case "$2" in
-                "") syslogparam='' ; shift 2 ;;
-                *)  syslogparam=$2 ; shift 2 ;;
-            esac 
-	    ;;
-	--) 
-	    shift
-	    break
-	    ;;
-	*) 
-            usage
-	    ;;
-        esac
+case "$1" in
+-v|--verbose)
+verbose=''
+shift
+;;
+-h|--help)
+usage
+;;
+-l|--logfile)
+fileout=1
+logfilename=$2
+shift 2
+;;
+-H|--hostname)
+hostname=$2
+shift 2
+;;
+--syslog)
+syslogout=1
+case "$2" in
+"") syslogparam='' ; shift 2 ;;
+*) syslogparam=$2 ; shift 2 ;;
+esac
+;;
+--)
+shift
+break
+;;
+*)
+usage
+;;
+esac
 done
 
-if [ $# == 0 ] ; then usage ;  fi
+if [ $# == 0 ] ; then usage ; fi
 
 tempfile=`mktemp`
 
@@ -80,23 +80,23 @@ thepid=$$
 tempstatus=`mktemp`
 (eval $@; echo $? > $tempstatus) 2>&1 | while read line ;
 do
-	thetime=`date '+%F %T'`
-	if [ $fileout = 1 ];
-	then
-		echo \[$thetime $thepid\] $line >> $logfilename
-	fi
-	if [ $syslogout = 1 ];
-	then
-		echo \[$thepid\] $line | logger $syslogparam
-	fi
-	echo \[$thetime $thepid\] $line  >> $tempfile
+thetime=`date '+%F %T'`
+if [ $fileout = 1 ];
+then
+echo [$thetime $thepid] $line >> $logfilename
+fi
+if [ $syslogout = 1 ];
+then
+echo [$thepid] $line | logger $syslogparam
+fi
+echo [$thetime $thepid] $line >> $tempfile
 done
 
 if [ `cat $tempstatus` = 0 ];
 then
-    status='OK'
+status='OK'
 else
-    status='NG'
+status='NG'
 fi
 endtime=`date '+%F %T'`
 
@@ -106,6 +106,6 @@ outputtext=`cat $tempfile`
 #postparam="cmd=commit&uuid=$uuid&hostname=$hostname&username=$username&starttime=$starttime&endtime=$endtime&status=$status&retcode=$retcode"
 postparam="uuid=$uuid&hostname=$hostname&username=$username&status=$status&retcode=$retcode"
 
-curl $verbose -X "POST"  -d "cmd=commit" -d "$postparam" --data-urlencode "starttime=$starttime" --data-urlencode "endtime=$endtime" --data-urlencode "outputtext=$outputtext" --data-urlencode "command=$cmdline" $YMANAGE_URL  
+curl $verbose -X "POST" -d "cmd=commit" -d "$postparam" --data-urlencode "starttime=$starttime" --data-urlencode "endtime=$endtime" --data-urlencode "outputtext=$outputtext" --data-urlencode "command=$cmdline" $YMANAGE_URL
 
 rm $tempfile $tempstatus > /dev/null

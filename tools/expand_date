@@ -1,4 +1,4 @@
-#! /usr/bin/env ruby
+#!/bin/bash
 
 # move this file to /usr/local/bin
 # .gitattributes  like:
@@ -6,6 +6,9 @@
 # and :
 # git config filter.dater.smudge expand_date
 # git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
-data = STDIN.read
-last_date = `git log --pretty=format:"%ad" -1`
-puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
+last_date=`git log --pretty=format:"%ad" -1 | sed s/\\\+/\\\\\\\+/g | sed s/\\\s/\\\\\\\\\ /g `
+sedstr='s/\$Date.*\$/\$Date:'$last_date'\$/'
+while read line
+do
+    echo $line | sed "$sedstr"
+done
