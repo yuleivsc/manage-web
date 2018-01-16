@@ -6,9 +6,9 @@
 # and :
 # git config filter.dater.smudge expand_date
 # git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
-last_date=`git log --pretty=format:"%ad" -1 | sed s/\\\+/\\\\\\\+/g | sed s/\\\s/\\\\\\\\\ /g `
+last_date=`date --iso-8601=seconds | sed s/\\\+/\\\\\\\+/g | sed s/\\\s/\\\\\\\\\ /g `
 sedstr='s/\$Date.*\$/\$Date:'$last_date'\$/'
-while read line
+while IFS= ; read line
 do
-    echo $line | sed "$sedstr"
+    echo "$line" | sed "$sedstr"
 done
