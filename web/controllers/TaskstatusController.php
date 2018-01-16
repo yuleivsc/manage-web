@@ -239,6 +239,7 @@ class TaskstatusController extends Controller {
                     'starttime' => '可选，任务开始时间',
                     'endtime' => '可选，任务结束时间',
                     'status' => '简短的结果标识，通常是OK或者NG表示成功与否',
+                    'descript' => '可选，通常用文字来说明本任务，系统中只在任务本身记下这个备注（以前的备注不再存在）',
                     'outputtext' => '执行结果的文本',
                         //'outputfile' => '结果文件如有',
                         )
@@ -252,6 +253,9 @@ class TaskstatusController extends Controller {
                 $thetask->hostname = $param['hostname'];
                 $thetask->username = $param['username'];
                 $param['taskid'] = $thetask->id;
+                if ( isset($param['descript'] )) {
+                    $thetask->descript = $param['descript'];
+                }
                 $thetask->lasttime = date('Y-m-d H:i:s');
                 $thetask->save();
             }else{
@@ -261,6 +265,9 @@ class TaskstatusController extends Controller {
                 $thetask->command = $param['command'];
                 $thetask->name = basename(explode(' ', $param['command'])[0]);
                 $thetask->lasttime = date('Y-m-d H:i:s');
+                if ( isset($param['descript']) ) {
+                    $thetask->descript = $param['descript'];
+                }
                 $thetask->save();
                 $param['taskid'] = $thetask->id;
             }

@@ -3,7 +3,7 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.2'
-FILE_DATE='$Date:2018-01-16T15:53:36+08:00$'
+FILE_DATE='$Date:2018-01-16T17:43:47+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] shell [argments]"
@@ -27,13 +27,14 @@ version() {
 upgrade() {
     tempshell=`mktemp`
     myshell=$0
+    echo 'mcomment:更新ym.sh自己'
     wget -q -O $tempshell $FILE_URL
     diff -q $tempshell $myshell
     if [ $? == 1 ];
     then
        cmd="cp $tempshell $myshell"
        echo $cmd
-       $cmd       
+       # $cmd       
     fi
     exit 0
 }
@@ -98,10 +99,16 @@ starttime=`date '+%F %T'`
 cmdline="$*"
 retcode="$1"
 thepid=$$
+descript=''
 
 tempstatus=`mktemp`
 (eval $@; echo $? > $tempstatus) 2>&1 | while read line ;
 do
+        if [[ ${line:0:9} = 'mcomment:' ]];
+	then
+	    descript=${line:9}
+	    continue
+	fi
 	thetime=`date '+%F %T'`
 	if [ $fileout = 1 ];
 	then
@@ -128,6 +135,6 @@ outputtext=`cat $tempfile`
 #postparam="cmd=commit&uuid=$uuid&hostname=$hostname&username=$username&starttime=$starttime&endtime=$endtime&status=$status&retcode=$retcode"
 postparam="uuid=$uuid&hostname=$hostname&username=$username&status=$status&retcode=$retcode"
 
-curl $verbose -X "POST"  -d "cmd=commit" -d "$postparam" --data-urlencode "starttime=$starttime" --data-urlencode "endtime=$endtime" --data-urlencode "outputtext=$outputtext" --data-urlencode "command=$cmdline" $YMANAGE_URL  
+curl $verbose -X "POST"  -d "cmd=commit" -d "$postparam" --data-urlencode "starttime=$starttime" --data-urlencode "endtime=$endtime" --data-urlencode "outputtext=$outputtext" --data-urlencode "command=$cmdline" --data-urlencode "descript=$descript" $YMANAGE_URL  
 
 rm $tempfile $tempstatus > /dev/null
