@@ -1,6 +1,6 @@
 #!/bin/bash
 
-YMANAGE_URL='http://manage.yulei.org/index.php?r=taskstatus/commit'
+YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 
 usage(){
     echo "Usage: $0 [options --] shell [argments]"
