@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#$Date$
-
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://git.china-qizhi.com/yulei/manage-web/raw/master/tools/ym.sh'
 FILE_VERSION=0.8
