@@ -3,7 +3,7 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.3'
-FILE_DATE='$Date:2018-01-17T07:57:20+08:00$'
+FILE_DATE='$Date:2018-01-17T08:02:06+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] shell [argments]"
@@ -36,6 +36,7 @@ upgrade() {
        echo $cmd
        $cmd
     fi
+    rm $tempshell 
     echo "版本更新至：$FILE_VERSION $FILE_DATE"
     exit 0
 }
