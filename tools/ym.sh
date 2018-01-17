@@ -3,10 +3,10 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.3'
-FILE_DATE='$Date:2018-01-17T08:03:24+08:00$'
+FILE_DATE='$Date:2018-01-17T09:22:07+08:00$'
 
 usage(){
-    echo "Usage: $0 [options --] shell [argments]"
+    echo "Usage: $0 [options --] [shell [argments]"
     echo '    options:'
     echo '      -h或--help 显示这个帮助'
     echo '      -H或--hostname 设置主机名，而不是使用系统的主机名'
@@ -16,6 +16,7 @@ usage(){
     echo '      --version 显示当前版本，并且检查版本有无更新'
     echo '      -u或--upgrade 实施版本自动更新'
     echo '         当使用-h,--version,-u选项时，其他选项不起作用，并且不会实际执行shell命令'
+    echo '         当使用-h,--version,-u不会执行shell命令'
     exit 0
 }
 
@@ -27,17 +28,16 @@ version() {
 upgrade() {
     tempshell=`mktemp`
     myshell=$0
-    echo 'mcomment: 自动更新ym.sh自己'
+    rtn='mcomment: 自动更新ym.sh自己'
     wget -q -O $tempshell $FILE_URL
     diff -q $tempshell $myshell
     if [ $? == 1 ];
     then
        cmd="cp $tempshell $myshell"
-       echo $cmd
+       rtn=$rtn$cmt
        $cmd
-       echo "版本更新至：$FILE_VERSION $FILE_DATE"
+       rtn=$rtn"版本更新至：$FILE_VERSION $FILE_DATE"
     fi
-    exit 0
 }
 
 OPTPROC=`getopt -o hs::l:vuH: --long help,syslog::,logfile:,upgrade,verbose,hostname:,version -- "$@"`
@@ -50,6 +50,7 @@ fileout=0
 syslogout=0
 verbose='--silent'
 hostname=`hostname`
+ifupgrade=0
 
 while true ; do
     case "$1" in
@@ -61,7 +62,8 @@ while true ; do
             usage
             ;;
         -u|--upgrade)
-            upgrade
+            ifupgrade=1
+	    shift
             ;;
         -l|--logfile)
             fileout=1
@@ -92,10 +94,14 @@ while true ; do
         esac
 done
 
-if [ $# == 0 ] ; then usage ;  fi
+if [ $ifupgrade = 0 ];
+then
+    if [ $# == 0 ] ; then usage ;  fi
+fi
 
 tempfile=`mktemp`
 tempdescript=`mktemp`
+tempresult=`mktemp`
 
 starttime=`date '+%F %T'`
 cmdline="$*"
@@ -103,7 +109,17 @@ retcode="$1"
 thepid=$$
 
 tempstatus=`mktemp`
-(eval $@; echo $? > $tempstatus) 2>&1 | while read line ;
+
+if [ $ifupgrade == 1 ];
+then
+   cmdline='ym.sh'
+   retcode=$cmdline
+   upgrade > $tempresult
+else
+   (eval $@; echo $? > $tempstatus) 2>&1 > $tempresult
+fi
+
+echo $tempresult | while read line ;
 do
         if [ 'mcomment' == "${line:0:8}" ];
 	then
