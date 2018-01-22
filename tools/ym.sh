@@ -2,8 +2,8 @@
 
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
-FILE_VERSION='0.8.3'
-FILE_DATE='$Date:2018-01-17T09:24:43+08:00$'
+FILE_VERSION='0.8.4'
+FILE_DATE='$Date:2018-01-22T15:30:15+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] [shell [argments]"
@@ -28,19 +28,26 @@ version() {
 upgrade() {
     tempshell=`mktemp`
     myshell=$0
-    rtn='mcomment: 自动更新ym.sh自己'
-    wget -q -O $tempshell $FILE_URL
-    diff -q $tempshell $myshell
+    wget -q -O $tempshell $FILE_URL > /dev/null
+    diff -q $tempshell $myshell > /dev/null
     if [ $? == 1 ];
     then
-       cmd="cp $tempshell $myshell"
-       rtn=$rtn$cmt
-       $cmd
-       rtn=$rtn"版本更新至：$FILE_VERSION $FILE_DATE"
+       cmd="$tempshell --upgradeshell $myshell"
+       echo $cmd
+       #exec /bin/bash $tempshell --upgradeshell $myshell
     fi
+    exit 0
 }
 
-OPTPROC=`getopt -o hs::l:vuH: --long help,syslog::,logfile:,upgrade,verbose,hostname:,version -- "$@"`
+upgradeshell(){
+    rtn='mcomment: 自动更新ym.sh自己'
+    cmd="cp $0 $upgradeshell"
+    $cmd
+    rtn="程序自动更新至版本 $FILE_VERSION ($FILE_DATE)"
+    echo $rtn
+}
+
+OPTPROC=`getopt -o hs::l:vuH: --long help,syslog::,logfile:,upgrade,verbose,hostname:,version,upgradeshell:,tmpshell: -- "$@"`
 
 if [ $? != 0 ] ; then usage ;  fi
 
@@ -51,6 +58,7 @@ syslogout=0
 verbose='--silent'
 hostname=`hostname`
 ifupgrade=0
+upgradeshell=$0
 
 while true ; do
     case "$1" in
@@ -62,7 +70,7 @@ while true ; do
             usage
             ;;
         -u|--upgrade)
-            ifupgrade=1
+            upgrade
 	    shift
             ;;
         -l|--logfile)
@@ -84,6 +92,10 @@ while true ; do
 	--version)
 	    version
 	    ;;
+        --upgradeshell)
+            upgradeshell=$2
+	    shift 2
+            ;;
 	--) 
 	    shift
 	    break
@@ -110,11 +122,11 @@ thepid=$$
 
 tempstatus=`mktemp`
 
-if [ $ifupgrade == 1 ];
+if [ ! $upgradeshell = "" ];
 then
    cmdline='ym.sh'
    retcode=$cmdline
-   upgrade > $tempresult
+   upgradehell > $tempresult
    echo 0 > $tempstatus
 else
    (eval $@; echo $? > $tempstatus) 2>&1 > $tempresult
