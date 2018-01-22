@@ -3,7 +3,7 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.5'
-FILE_DATE='$Date:2018-01-22T16:12:29+08:00$'
+FILE_DATE='$Date:2018-01-22T16:20:00+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] [shell [argments]"
@@ -37,7 +37,6 @@ upgrade() {
 #       echo $cmd
        exec /bin/bash $tempshell --upgradeshell $myshell
     fi
-    exit 0
 }
 
 upgradeshell(){
@@ -45,7 +44,9 @@ upgradeshell(){
     cmd="cp $0 $upgradeshell"
 #    echo $cmd
     $cmd
+    cmdrtn = $?
     echo "程序自动更新至版本 $FILE_VERSION ($FILE_DATE)"
+    return $cmdrtn
 }
 
 OPTPROC=`getopt -o hs::l:vuH: --long help,syslog::,logfile:,upgrade,verbose,hostname:,version,upgradeshell:,tmpshell: -- "$@"`
@@ -59,7 +60,6 @@ syslogout=0
 verbose='--silent'
 hostname=`hostname`
 ifupgrade=0
-upgradeshell=$0
 
 while true ; do
     case "$1" in
@@ -128,8 +128,8 @@ if [ ! $upgradeshell = "" ];
 then
    cmdline=$upgradeshell
    retcode=$cmdline
-   upgradeshell > $tempresult
-   echo 0 > $tempstatus
+   upgradeshell 2>&1 $tempresult
+   echo $? > $tempstatus
 else
    (eval $@; echo $? > $tempstatus) 2>&1 > $tempresult
 fi
