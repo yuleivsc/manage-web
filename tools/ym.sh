@@ -3,7 +3,7 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.5'
-FILE_DATE='$Date:2018-01-22T16:54:17+08:00$'
+FILE_DATE='$Date:2018-01-22T16:59:35+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] [shell [argments]"
@@ -28,7 +28,7 @@ version() {
 upgrade() {
     tempshell=`mktemp`
     myshell=$0
-    wget -q -O $tempshell $FILE_URL > /dev/null
+    wget -q --no-cache -O $tempshell $FILE_URL > /dev/null
     #cp $myshell $tempshell
     diff -q $tempshell $myshell > /dev/null
     if [ $? == 1 ];
