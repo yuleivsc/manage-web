@@ -3,7 +3,7 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.4'
-FILE_DATE='$Date:2018-01-22T16:01:18+08:00$'
+FILE_DATE='$Date:2018-01-22T16:11:38+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] [shell [argments]"
@@ -29,20 +29,21 @@ upgrade() {
     tempshell=`mktemp`
     myshell=$0
     wget -q -O $tempshell $FILE_URL > /dev/null
+    #cp $myshell $tempshell
     diff -q $tempshell $myshell > /dev/null
     if [ $? == 1 ];
     then
        cmd="$tempshell --upgradeshell $myshell"
-       echo $cmd
+#       echo $cmd
        exec /bin/bash $tempshell --upgradeshell $myshell
     fi
     exit 0
 }
 
 upgradeshell(){
-    echo 'mcomment: 自动更新ym.sh自己'
+    echo 'mcomment: 自动更新ym.sh自身'
     cmd="cp $0 $upgradeshell"
-    echo $cmd
+#    echo $cmd
     $cmd
     echo "程序自动更新至版本 $FILE_VERSION ($FILE_DATE)"
 }
@@ -125,7 +126,7 @@ tempstatus=`mktemp`
 
 if [ ! $upgradeshell = "" ];
 then
-   cmdline='ym.sh'
+   cmdline=$upgradeshell
    retcode=$cmdline
    upgradeshell > $tempresult
    echo 0 > $tempstatus
@@ -133,7 +134,7 @@ else
    (eval $@; echo $? > $tempstatus) 2>&1 > $tempresult
 fi
 
-echo $tempresult | while read line ;
+cat $tempresult | while read line ;
 do
         if [ 'mcomment' == "${line:0:8}" ];
 	then
@@ -169,6 +170,5 @@ outputtext=`cat $tempfile`
 postparam="uuid=$uuid&hostname=$hostname&username=$username&status=$status&retcode=$retcode"
 
 curl $verbose -X "POST"  -d "cmd=commit" -d "$postparam" --data-urlencode "starttime=$starttime" --data-urlencode "endtime=$endtime" --data-urlencode "outputtext=$outputtext" --data-urlencode "command=$cmdline" --data-urlencode "descript=$descript" $YMANAGE_URL  
-echo curl $verbose -X "POST"  -d "cmd=commit" -d "$postparam" --data-urlencode "starttime=$starttime" --data-urlencode "endtime=$endtime" --data-urlencode "outputtext=$outputtext" --data-urlencode "command=$cmdline" --data-urlencode "descript=$descript" $YMANAGE_URL  
 
-rm $tempfile $tempstatus $tempdescript > /dev/null
+rm $tempfile $tempstatus $tempdescript $tempresult > /dev/null
