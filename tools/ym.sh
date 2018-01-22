@@ -3,7 +3,7 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.4'
-FILE_DATE='$Date:2018-01-22T15:39:09+08:00$'
+FILE_DATE='$Date:2018-01-22T15:41:12+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] [shell [argments]"
@@ -94,6 +94,7 @@ while true ; do
 	    ;;
         --upgradeshell)
             upgradeshell=$2
+	    ifupgrade=1
 	    shift 2
             ;;
 	--) 
