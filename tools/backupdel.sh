@@ -13,6 +13,8 @@ stage1_inteval=5 # 阶段一：保留每隔5天的文件
 
 #注：早于阶段一的文件，只保留每月1号的
 
+#注：除了三天以内的文件外，这一天如果有数个备份文件，则只保留一个
+
 if [ $# -ne 2 ];
 then
 	echo "Usage: $0 dir template"
@@ -20,6 +22,8 @@ then
 fi
 
 cd $file_dir
+
+reserve_filedate=''
 
 for file_name in `ls ${file_template} 2> /dev/null`
 do
@@ -41,7 +45,12 @@ do
 	    then
 #	   	date -d @${file_unixtime}
 #	        echo "2 not del $file_name"
-	        continue
+                file_date=`date -d  @${file_unixtime} +%F`
+		if [ `echo $reserve_filedate | grep -c $file_date=` -eq 0 ];
+		then
+			reserve_filedate="$reserve_filedate $file_date"
+			continue
+		fi
 	    fi
     fi
     #余下的文件，判断是否是每月第一天的
@@ -49,7 +58,13 @@ do
     if [ $file_day -eq 1 ];
     then
 #   	date -d @${file_unixtime}
-#        echo "3 not del $file_name"
+#       echo "3 not del $file_name"
+        file_date=`date -d  @${file_unixtime} +%F`
+	if [ `echo $reserve_filedate | grep -c $file_date=` -eq 0 ];
+	then
+		reserve_filedate="$reserve_filedate $file_date"
+		continue
+	fi
         continue
     fi
     echo rm -rf $file_name
