@@ -43,11 +43,11 @@ do
 	    file_day=`date -d @${file_unixtime} +%_d`
 	    if [ $(( ( file_day - 1 ) % stage1_inteval)) -eq 0 ];
 	    then
-#	   	date -d @${file_unixtime}
-#	        echo "2 not del $file_name"
                 file_date=`date -d  @${file_unixtime} +%F`
-		if [ `echo $reserve_filedate | grep -c $file_date=` -eq 0 ];
+		if [ `echo $reserve_filedate | grep -c $file_date` -eq 0 ];
 		then
+#	   		date -d @${file_unixtime}
+#		        echo "2 not del $file_name"
 			reserve_filedate="$reserve_filedate $file_date"
 			continue
 		fi
@@ -57,11 +57,11 @@ do
     file_day=`date -d @${file_unixtime} +%_d`
     if [ $file_day -eq 1 ];
     then
-#   	date -d @${file_unixtime}
-#       echo "3 not del $file_name"
         file_date=`date -d  @${file_unixtime} +%F`
-	if [ `echo $reserve_filedate | grep -c $file_date=` -eq 0 ];
+	if [ `echo $reserve_filedate | grep -c $file_date` -eq 0 ];
 	then
+#         	date -d @${file_unixtime}
+#                echo "3 not del $file_name"
 		reserve_filedate="$reserve_filedate $file_date"
 		continue
 	fi
