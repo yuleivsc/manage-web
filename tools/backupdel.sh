@@ -16,7 +16,7 @@ stage1_inteval=5 # 阶段一：保留每隔5天的文件
 if [ $# -ne 2 ];
 then
 	echo "Usage: $0 dir template"
-	exit 0
+	exit 1
 fi
 
 cd $file_dir
@@ -52,5 +52,6 @@ do
 #        echo "3 not del $file_name"
         continue
     fi
-    #rm -rf $file_name
+    echo rm -rf $file_name
+    rm -rf $file_name
 done 
