@@ -2,7 +2,9 @@
 
 #用于定时删除备份文件
 
-file_template='*_backup.tar'
+file_dir=$1
+file_template=$2
+#file_template='*_backup.tar'
 
 reserve_days=3  # 三天以内的备份文件不删除
 
@@ -10,6 +12,14 @@ stage1_days=30 # 阶段一：30天以内的文件
 stage1_inteval=5 # 阶段一：保留每隔5天的文件
 
 #注：早于阶段一的文件，只保留每月1号的
+
+if [ $# -ne 2 ];
+then
+	echo "Usage: $0 dir template"
+	exit 0
+fi
+
+cd $file_dir
 
 for file_name in `ls ${file_template} 2> /dev/null`
 do
