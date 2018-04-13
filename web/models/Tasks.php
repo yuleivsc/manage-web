@@ -13,6 +13,8 @@ use Yii;
  * @property string $name
  * @property string $descript
  * @property string $command
+ * @property string $type
+ * @property string $desthost
  * @property string $lasttime
  * @property string $source
  */
