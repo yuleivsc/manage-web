@@ -11,11 +11,14 @@ use yii\widgets\ActiveForm;
 <div class="tasks-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'hostname')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'desthost')->textInput(['maxlength' => true]) ?>
+    
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
-
+    
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'descript')->textInput(['maxlength' => true]) ?>
