@@ -3,7 +3,7 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.5'
-FILE_DATE='$Date:2018-04-13T09:26:42+08:00$'
+FILE_DATE='$Date:2018-04-13T09:33:14+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] [shell [argments]"
@@ -176,7 +176,7 @@ username=`id -un`
 outputtext=`cat $tempfile`
 #postparam="cmd=commit&uuid=$uuid&hostname=$hostname&username=$username&starttime=$starttime&endtime=$endtime&status=$status&retcode=$retcode"
 postparam="uuid=$uuid&hostname=$hostname&username=$username&status=$status&retcode=$retcode"
-srccode=`cat $0`
+srccode=`cat $1`
 
 curl $verbose -X "POST"  -d "cmd=commit" -d "$postparam" --data-urlencode "starttime=$starttime" --data-urlencode "endtime=$endtime" --data-urlencode "outputtext=$outputtext" --data-urlencode "command=$cmdline" --data-urlencode "descript=$descript" --data-urlencode "srccode=$srccode" $YMANAGE_URL   > /dev/null
 
