@@ -10,24 +10,22 @@ use app\models\Tasks;
 /**
  * TasksSearch represents the model behind the search form about `app\models\Tasks`.
  */
-class TasksSearch extends Tasks
-{
+class TasksSearch extends Tasks {
+
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['id'], 'integer'],
-            [['hostname', 'username', 'name', 'descript', 'command', 'lasttime', 'source'], 'safe'],
+            [['hostname', 'username', 'name', 'descript', 'command', 'lasttime', 'source', 'type', 'desthost'], 'safe'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
-    {
+    public function scenarios() {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
@@ -39,8 +37,7 @@ class TasksSearch extends Tasks
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
-    {
+    public function search($params) {
         $query = Tasks::find();
 
         // add conditions that should always apply here
@@ -63,13 +60,16 @@ class TasksSearch extends Tasks
             'lasttime' => $this->lasttime,
         ]);
 
-        $query->andFilterWhere([ 'hostname' => $this->hostname])
-            ->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'descript', $this->descript])
-            ->andFilterWhere(['like', 'command', $this->command])
-            ->andFilterWhere(['like', 'source', $this->source]);
+        $query->andFilterWhere(['hostname' => $this->hostname])
+                ->andFilterWhere(['like', 'username', $this->username])
+                ->andFilterWhere(['like', 'name', $this->name])
+                ->andFilterWhere(['like', 'descript', $this->descript])
+                ->andFilterWhere(['like', 'command', $this->command])
+                ->andFilterWhere(['like', 'type', $this->command])
+                ->andFilterWhere(['like', 'desthost', $this->command])
+                ->andFilterWhere(['like', 'source', $this->source]);
 
         return $dataProvider;
     }
+
 }
