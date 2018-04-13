@@ -36,6 +36,8 @@ class Tasks extends \yii\db\ActiveRecord {
             [['hostname'], 'string', 'max' => 255],
             [['username'], 'string', 'max' => 32],
             [['name'], 'string', 'max' => 50],
+            [['type'], 'string', 'max' => 32],
+            [['desthost'], 'string', 'max' => 255],
             [['descript', 'command'], 'string', 'max' => 1024],
         ];
     }
@@ -51,6 +53,8 @@ class Tasks extends \yii\db\ActiveRecord {
             'name' => Yii::t('app', '名称'),
             'descript' => Yii::t('app', '说明'),
             'command' => Yii::t('app', '执行命令'),
+            'type' => Yii::t('app', '类型'),
+            'desthost' => Yii::t('app', '目标主机'),
             'lasttime' => Yii::t('app', '最后一次运行时间'),
             'source' => Yii::t('app', '源代码'),
         ];
@@ -79,6 +83,26 @@ class Tasks extends \yii\db\ActiveRecord {
         $list = array('' => '全部');
         foreach (array_values($result) as $y) {
             $list[$y['username']] = $y['username'];
+        }
+        arsort($list);
+        return $list;
+    }
+
+    public function getTypeList() {
+        $result = $this->find()->select('type')->distinct(true)->asArray()->all();
+        $list = array('' => '全部');
+        foreach (array_values($result) as $y) {
+            $list[$y['type']] = $y['type'];
+        }
+        arsort($list);
+        return $list;
+    }
+
+    public function getDesthostList() {
+        $result = $this->find()->select('desthost')->distinct(true)->asArray()->all();
+        $list = array('' => '全部');
+        foreach (array_values($result) as $y) {
+            $list[$y['desthost']] = $y['desthost'];
         }
         arsort($list);
         return $list;

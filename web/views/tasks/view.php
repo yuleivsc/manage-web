@@ -34,6 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'descript',
             'command',
+            'type',
+            'desthost',
             'lasttime',
             'source:ntext',
         ],

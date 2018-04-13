@@ -25,11 +25,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            [
+                'attribute' => 'type',
+                'format' => 'raw',
+                'filter' => Html::activeDropDownList($searchModel, 'type', $searchModel->getTypeList()
+                )
+            ],           
             //'id',
             [
                 'attribute' => 'hostname',
                 'format' => 'raw',
                 'filter' => Html::activeDropDownList($searchModel, 'hostname', $searchModel->getHostnameList()
+                )
+            ],
+            [
+                'attribute' => 'desthost',
+                'format' => 'raw',
+                'filter' => Html::activeDropDownList($searchModel, 'hostname', $searchModel->getDesthostList()
                 )
             ],
             [
