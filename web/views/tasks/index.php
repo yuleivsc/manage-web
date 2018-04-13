@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'desthost',
                 'format' => 'raw',
-                'filter' => Html::activeDropDownList($searchModel, 'hostname', $searchModel->getDesthostList()
+                'filter' => Html::activeDropDownList($searchModel, 'desthost', $searchModel->getDesthostList()
                 )
             ],
             [

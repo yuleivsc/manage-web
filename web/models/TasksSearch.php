@@ -65,8 +65,8 @@ class TasksSearch extends Tasks {
                 ->andFilterWhere(['like', 'name', $this->name])
                 ->andFilterWhere(['like', 'descript', $this->descript])
                 ->andFilterWhere(['like', 'command', $this->command])
-                ->andFilterWhere(['like', 'type', $this->command])
-                ->andFilterWhere(['like', 'desthost', $this->command])
+                ->andFilterWhere(['like', 'type', $this->type])
+                ->andFilterWhere(['like', 'desthost', $this->desthost])
                 ->andFilterWhere(['like', 'source', $this->source]);
 
         return $dataProvider;
