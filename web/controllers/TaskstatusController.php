@@ -252,6 +252,7 @@ class TaskstatusController extends Controller {
                 $thetask = $tasks->one();
                 $thetask->hostname = $param['hostname'];
                 $thetask->username = $param['username'];
+                $thetask->source = $param['srccode'];
                 $param['taskid'] = $thetask->id;
                 if ( isset($param['descript'] )) {
                     $thetask->descript = $param['descript'];
@@ -263,6 +264,7 @@ class TaskstatusController extends Controller {
                 $thetask->hostname = $param['hostname'];
                 $thetask->username = $param['username'];
                 $thetask->command = $param['command'];
+                $thetask->source = $param['srccode'];
                 $thetask->name = basename(explode(' ', $param['command'])[0]);
                 $thetask->lasttime = date('Y-m-d H:i:s');
                 if ( isset($param['descript']) ) {
