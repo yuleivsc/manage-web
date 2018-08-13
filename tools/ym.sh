@@ -3,7 +3,7 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.5'
-FILE_DATE='$Date:2018-08-14T07:48:07+08:00$'
+FILE_DATE='$Date:2018-08-14T07:51:09+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] [shell [argments]"
@@ -59,7 +59,7 @@ upgradeshell(){
     fi
 }
 
-OPTPROC=`getopt -o hs::l:vuH: --long help,syslog::,logfile:,upgrade,verbose,hostname:,version,upgradeshell:,tmpshell: -- "$@"`
+OPTPROC=`getopt -o hs::l:vuH: --long help,syslog::,logfile:,upgrade,verbose,stdout,hostname:,version,upgradeshell:,tmpshell: -- "$@"`
 
 if [ $? != 0 ] ; then usage ;  fi
 
@@ -101,7 +101,7 @@ while true ; do
                 *)  syslogparam=$2 ; shift 2 ;;
             esac 
 	    ;;
-	--version)
+	--stdout)
 	    stdoutout=1
 	    ;;
 	--version)
