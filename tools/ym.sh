@@ -3,7 +3,7 @@
 YMANAGE_URL='http://manage.yulei.org/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.5'
-FILE_DATE='$Date:2018-04-13T10:34:49+08:00$'
+FILE_DATE='$Date:2018-08-14T07:48:07+08:00$'
 
 usage(){
     echo "Usage: $0 [options --] [shell [argments]"
@@ -13,6 +13,7 @@ usage(){
     echo '      -v或--verbose 显示较多信息'
     echo '      -l logfile  命令行输出存储到logfile中'
     echo '      --syslog[=syslog]参数 命令行输出到系统日志中且为syslog加参数'
+    echo '      --stdout 命令行输出到标准输出，注意，原来的错误输出也会被定向到标准输出'
     echo '      --version 显示当前版本，并且检查版本有无更新'
     echo '      -u或--upgrade 实施版本自动更新'
     echo '         当使用-h,--version,-u选项时，其他选项不起作用，并且不会实际执行shell命令'
@@ -37,6 +38,7 @@ upgrade() {
 #       echo $cmd
        exec /bin/bash $tempshell --upgradeshell $myshell
     fi
+    rm $tempshell
     echo '无需更新程序'
     exit 0 
 }
@@ -65,6 +67,7 @@ eval set -- "$OPTPROC"
 
 fileout=0
 syslogout=0
+stdoutout=0
 verbose='--silent'
 hostname=`hostname`
 ifupgrade=0
@@ -97,6 +100,9 @@ while true ; do
                 "") syslogparam='' ; shift 2 ;;
                 *)  syslogparam=$2 ; shift 2 ;;
             esac 
+	    ;;
+	--version)
+	    stdoutout=1
 	    ;;
 	--version)
 	    version
@@ -160,6 +166,10 @@ do
 	if [ $syslogout = 1 ];
 	then
 		echo [$thepid] $line | logger $syslogparam
+	fi
+	if [ $stdoutout = 1 ];
+	then
+	        echo [$thetime $thepid] $line
 	fi
 	echo [$thetime $thepid] $line  >> $tempfile
 done
