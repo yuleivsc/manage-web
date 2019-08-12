@@ -190,6 +190,6 @@ outputtext=`cat $tempfile`
 #postparam="cmd=commit&uuid=$uuid&hostname=$hostname&username=$username&starttime=$starttime&endtime=$endtime&status=$status&retcode=$retcode"
 postparam="uuid=$uuid&hostname=$hostname&username=$username&status=$status&retcode=$retcode"
 
-curl $verbose -X "POST"  -d "cmd=commit" -d "$postparam" --data-urlencode "starttime=$starttime" --data-urlencode "endtime=$endtime" --data-urlencode "outputtext=$outputtext" --data-urlencode "command=$cmdline" --data-urlencode "descript=$descript" --data-urlencode "srccode=$srccode" $YMANAGE_URL   > /dev/null
+curl $verbose --insecure -X "POST"  -d "cmd=commit" -d "$postparam" --data-urlencode "starttime=$starttime" --data-urlencode "endtime=$endtime" --data-urlencode "outputtext=$outputtext" --data-urlencode "command=$cmdline" --data-urlencode "descript=$descript" --data-urlencode "srccode=$srccode" $YMANAGE_URL   > /dev/null
 
 rm $tempfile $tempstatus $tempdescript $tempresult > /dev/null
