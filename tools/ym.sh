@@ -1,6 +1,6 @@
 #!/bin/bash
 
-YMANAGE_URL='https://manage.lexinzhi.net/taskstatus/commit'
+YMANAGE_URL='http://manage.lexinzhi.net/taskstatus/commit'
 FILE_URL='https://raw.githubusercontent.com/yuleivsc/manage-web/master/tools/ym.sh'
 FILE_VERSION='0.8.6'
 FILE_DATE='$Date:2018-08-14T08:27:28+08:00$'
